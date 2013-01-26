@@ -33,11 +33,10 @@ namespace fb2wp
 		private:
 			typedef std::vector<boost::filesystem::path> vector;
 
-		public:
 			vector v;
-
 			std::string text;
 
+		public:
 			void find_in(const char *search_dir);
 			void parse();
 
