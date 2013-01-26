@@ -44,11 +44,5 @@ int main()
 //	std::cout << book.year[0] << std::endl;
 //	std::cout << book.isbn[0] << std::endl;
 
-
-
-
-
-	//fb2wp::books.book_vector.push_back(mybook);
-
 	return 0;
 }
