@@ -28,24 +28,27 @@ namespace fb2wp
 									tales;
 	};
 
-	class books
+	class Books
 	{
-		private:
-			typedef std::vector<boost::filesystem::path> vector;
+    private:
+        typedef std::vector<boost::filesystem::path> path_vector;
 
-			vector v;
-			std::string text;
+        path_vector v;
+        std::string text;
 
-		public:
-			void find_in(const char *search_dir);
-			void parse();
+    public:
+        void find_in(const char *search_dir);
+        void parse();
 
-			void set_field(const char *pattern);
+        void set_field(const char *pattern);
 
-			void regex_search(const char *pattern, std::vector<std::string> &storage);
+        void regex_search(const char *pattern, std::vector<std::string> &storage);
+        
+        std::string getText() const {
+            return text;
+        }
 	};
 
-	extern class books books;
 }
 
 #endif /* FB2WP_HPP_ */

@@ -12,9 +12,11 @@
 *.la
 *.a
 
-.gitignore
-.project
-.cproject
+*.out
+
+.*
 
 Debug
 Release
+build
+build-*
