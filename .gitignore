@@ -14,3 +14,7 @@
 
 .gitignore
 .project
+.cproject
+
+Debug
+Release
