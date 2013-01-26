@@ -15,10 +15,9 @@ void fb2wp::books::find_in(const char *search_dir)
 		 * Getting file list
 		 * ================= */
 
-		for (boost::filesystem::directory_iterator begin(directory), end; begin != end; ++begin)
-		{
-			v.push_back(*begin);
-		}
+        std::copy(boost::filesystem::directory_iterator begin(directory),
+                  boost::filesysyem::directory_iterator(),
+                  std::back_inserter(v));
 	}
 
 	/* =============== *
