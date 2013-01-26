@@ -33,10 +33,8 @@ void fb2wp::books::parse()
 	text.clear();
 
 	std::ifstream myfile;
-	std::vector<boost::filesystem::path>::iterator it;
-	std::vector<boost::filesystem::path>::iterator it_end;
 
-	for (it = fb2wp::books.v.begin(), it_end = fb2wp::books.v.end(); it != it_end; ++it)
+	for (std::vector<boost::filesystem::path>::iterator it = fb2wp::books.v.begin(), it_end = fb2wp::books.v.end(); it != it_end; ++it)
 	{
 		/* ============ *
 		 * Reading file
