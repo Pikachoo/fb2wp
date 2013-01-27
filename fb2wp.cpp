@@ -66,6 +66,4 @@ void fb2wp::books::regex_search(const char *pattern, std::vector<std::string> &s
 	{
 		storage.push_back(*it);
 	}
-
-	std::cout << "[" << storage.size() << "]: " << storage[0] << '\n';
 }
