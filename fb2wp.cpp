@@ -11,7 +11,7 @@ void fb2wp::books::find_in(const char *search_dir)
 	if (boost::filesystem::exists(directory) && boost::filesystem::is_directory(directory))
 	{
 		/* ================= *
-		 * Getting file list
+		 * Get the file list
 		 * ================= */
 
 		std::copy(boost::filesystem::directory_iterator(directory),
