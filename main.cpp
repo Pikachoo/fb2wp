@@ -12,26 +12,26 @@ int main()
 	 * Get book primary info
 	 * ===================== */
 
-	fb2wp::books.regex_search("<genre>(.*?)</genre>", mybook.genre);
-	fb2wp::books.regex_search("<book-name>(.*?)</book-name>", mybook.book_name);
-	fb2wp::books.regex_search("<book-title>(.*?)</book-title>", mybook.book_title);
-	fb2wp::books.regex_search("<publisher>(.*?)</publisher", mybook.publisher);
-	fb2wp::books.regex_search("<city>(.*?)</city>", mybook.city);
-	fb2wp::books.regex_search("<year>(.*?)</year>", mybook.year);
-	fb2wp::books.regex_search("<isbn>(.*?)</isbn>", mybook.isbn);
+	fb2wp::books.regex_search("(?<=<genre>)(.*)(?=</genre>)", mybook.genre);
+	fb2wp::books.regex_search("(?<=<book-name>)(.*)(?=</book-name>)", mybook.book_name);
+	fb2wp::books.regex_search("(?<=<book-title>)(.*)(?=</book-title>)", mybook.book_title);
+	fb2wp::books.regex_search("(?<=<publisher>)(.*)(?=</publisher>)", mybook.publisher);
+	fb2wp::books.regex_search("(?<=<city>)(.*)(?=</city>)", mybook.city);
+	fb2wp::books.regex_search("(?<=<year>)(.*)(?=</year>)", mybook.year);
+	fb2wp::books.regex_search("(?<=<isbn>)(.*)(?=</isbn>)", mybook.isbn);
 
 	/* ================ *
 	 * Get book authors
 	 * ================ */
 
-	fb2wp::books.regex_search("<first-name>(.*?)</first-name>", mybook.first_name);
-	fb2wp::books.regex_search("<last-name>(.*?)</last-name>", mybook.last_name);
+	fb2wp::books.regex_search("(?<=<first-name>)(.*)(?=</first-name>)", mybook.first_name);
+	fb2wp::books.regex_search("(?<=<last-name>)(.*)(?=</last-name>)", mybook.last_name);
 
 	/* ======================================= *
 	 * Get book tales per each <section> in it
 	 * ======================================= */
 
-	fb2wp::books.regex_search("<section>(.*?)</section>", mybook.tales);
+	fb2wp::books.regex_search("(?<=<section>)(.*)(?=</section>)", mybook.tales);
 
 	std::cout << mybook.genre[0] << std::endl;
 	std::cout << mybook.book_name[0] << std::endl;

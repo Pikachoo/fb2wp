@@ -4,26 +4,25 @@ class fb2wp::books fb2wp::books;
 
 void fb2wp::books::find_in(const char *search_dir)
 {
-	v.clear();
+	file_list.clear();
 
 	boost::filesystem::path directory(search_dir);
 
 	if (boost::filesystem::exists(directory) && boost::filesystem::is_directory(directory))
 	{
-
 		/* ================= *
 		 * Getting file list
 		 * ================= */
 
 		std::copy(boost::filesystem::directory_iterator(directory),
-				boost::filesystem::directory_iterator(), std::back_inserter(v));
+				boost::filesystem::directory_iterator(), std::back_inserter(file_list));
 	}
 
 	/* =============== *
 	 * Sorting results
 	 * =============== */
 
-	sort(v.begin(), v.end());
+	sort(file_list.begin(), file_list.end());
 }
 
 void fb2wp::books::parse()
@@ -32,7 +31,8 @@ void fb2wp::books::parse()
 
 	std::ifstream myfile;
 
-	for (std::vector<boost::filesystem::path>::iterator i = v.begin(); i != v.end(); ++i)
+	for (std::vector<boost::filesystem::path>::iterator i = file_list.begin(); i != file_list.end();
+			++i)
 	{
 		/* ============ *
 		 * Reading file
@@ -57,12 +57,15 @@ void fb2wp::books::regex_search(const char *pattern, std::vector<std::string> &s
 	 * Regular expression search
 	 * ========================= */
 
-	std::tr1::regex match(pattern);
+	boost::regex regex(pattern, boost::regex::perl);
 
-	std::copy(std::tr1::sregex_token_iterator(text.begin(), text.end(), match),
-			std::tr1::sregex_token_iterator(), std::back_inserter(storage));
+	boost::sregex_token_iterator it(text.begin(), text.end(), regex, 0);
+	boost::sregex_token_iterator it_end;
 
-	std::cout << "[" << storage.size() << "]: " << storage[0] << std::endl;
+	for (; it != it_end; ++it)
+	{
+		storage.push_back(*it);
+	}
 
-	// Now matches[0] is the first match, matches[1] the second, and so on.
+	std::cout << "[" << storage.size() << "]: " << storage[0] << '\n';
 }

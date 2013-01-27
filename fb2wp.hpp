@@ -24,9 +24,9 @@ namespace fb2wp
 	class books
 	{
 		private:
-			typedef std::vector<boost::filesystem::path> path_vector;
+			typedef std::vector<boost::filesystem::path> file_vector;
 
-			path_vector v;
+			file_vector file_list;
 			std::string text;
 
 		public:
