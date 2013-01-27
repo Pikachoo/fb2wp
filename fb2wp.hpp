@@ -28,7 +28,7 @@ namespace fb2wp
 									tales;
 	};
 
-	class Books
+	class books
 	{
     private:
         typedef std::vector<boost::filesystem::path> path_vector;
@@ -49,6 +49,7 @@ namespace fb2wp
         }
 	};
 
+	extern books books;
 }
 
 #endif /* FB2WP_HPP_ */
