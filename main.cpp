@@ -8,9 +8,9 @@ int main()
 	fb2wp::book_skel mybook;
 
 
-	/* ===================== *
-	 * Get book primary info
-	 * ===================== */
+	/* ================ *
+	 * Get primary info
+	 * ================ */
 
 	fb2wp::books.regex_search("(?<=<genre>)(.*)(?=</genre>)", mybook.genre);
 	fb2wp::books.regex_search("(?<=<book-name>)(.*)(?=</book-name>)", mybook.book_name);
@@ -20,16 +20,18 @@ int main()
 	fb2wp::books.regex_search("(?<=<year>)(.*)(?=</year>)", mybook.year);
 	fb2wp::books.regex_search("(?<=<isbn>)(.*)(?=</isbn>)", mybook.isbn);
 
-	/* ================ *
-	 * Get book authors
-	 * ================ */
+
+	/* =========== *
+	 * Get authors
+	 * =========== */
 
 	fb2wp::books.regex_search("(?<=<first-name>)(.*)(?=</first-name>)", mybook.first_name);
 	fb2wp::books.regex_search("(?<=<last-name>)(.*)(?=</last-name>)", mybook.last_name);
 
-	/* ======================================= *
-	 * Get book tales per each <section> in it
-	 * ======================================= */
+
+	/* ================================== *
+	 * Get tales per each <section> in it
+	 * ================================== */
 
 	fb2wp::books.regex_search("(?<=<section>)(.*)(?=</section>)", mybook.tales);
 

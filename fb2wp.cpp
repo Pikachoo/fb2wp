@@ -29,11 +29,11 @@ void fb2wp::books::load_in_memory(const char *file_path)
 {
 	text.clear();
 
-	std::ifstream myfile;
-
 	/* ============= *
 	 * Read the file
 	 * ============= */
+
+	std::ifstream myfile;
 
 	myfile.open(file_path);
 
@@ -55,10 +55,7 @@ void fb2wp::books::regex_search(const char *pattern, std::vector<std::string> &s
 
 	boost::regex regex(pattern, boost::regex::perl);
 
-	boost::sregex_token_iterator it(text.begin(), text.end(), regex, 0);
-	boost::sregex_token_iterator it_end;
-
-	for (; it != it_end; ++it)
+	for (boost::sregex_token_iterator it(text.begin(), text.end(), regex, 0), it_end; it != it_end; ++it)
 	{
 		storage.push_back(*it);
 	}
