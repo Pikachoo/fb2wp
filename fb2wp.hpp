@@ -14,39 +14,33 @@ namespace fb2wp
 {
 	struct book_skel
 	{
-		std::vector<std::string>	genre,
-									book_title,
-									book_name,
-									publisher,
-									city,
-									year,
-									isbn,
+			std::vector<std::string> genre, book_title, book_name, publisher, city, year, isbn,
 
-									first_name,
-									last_name,
+			first_name, last_name,
 
-									tales;
+			tales;
 	};
 
 	class books
 	{
-    private:
-        typedef std::vector<boost::filesystem::path> path_vector;
+		private:
+			typedef std::vector<boost::filesystem::path> path_vector;
 
-        path_vector v;
-        std::string text;
+			path_vector v;
+			std::string text;
 
-    public:
-        void find_in(const char *search_dir);
-        void parse();
+		public:
+			void find_in(const char *search_dir);
+			void parse();
 
-        void set_field(const char *pattern);
+			void set_field(const char *pattern);
 
-        void regex_search(const char *pattern, std::vector<std::string> &storage);
-        
-        std::string getText() const {
-            return text;
-        }
+			void regex_search(const char *pattern, std::vector<std::string> &storage);
+
+			std::string getText() const
+			{
+				return text;
+			}
 	};
 
 	extern books books;
