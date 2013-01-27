@@ -31,16 +31,9 @@ namespace fb2wp
 
 		public:
 			void find_in(const char *search_dir);
-			void parse();
-
-			void set_field(const char *pattern);
+			void open_in_memory();
 
 			void regex_search(const char *pattern, std::vector<std::string> &storage);
-
-			std::string get_text() const
-			{
-				return text;
-			}
 	};
 
 	extern books books;

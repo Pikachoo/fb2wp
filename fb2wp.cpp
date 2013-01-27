@@ -25,7 +25,7 @@ void fb2wp::books::find_in(const char *search_dir)
 	sort(file_list.begin(), file_list.end());
 }
 
-void fb2wp::books::parse()
+void fb2wp::books::open_in_memory()
 {
 	text.clear();
 
