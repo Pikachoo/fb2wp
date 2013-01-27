@@ -31,7 +31,7 @@ int main()
 	 * Get book tales per each <section> in it
 	 * ======================================= */
 
-	fb2wp::books.regex_search("<section>(.*?)</section>", mybook.isbn);
+	fb2wp::books.regex_search("<section>(.*?)</section>", mybook.tales);
 
 	std::cout << mybook.genre[0] << std::endl;
 	std::cout << mybook.book_name[0] << std::endl;

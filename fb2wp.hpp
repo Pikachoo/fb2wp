@@ -37,7 +37,7 @@ namespace fb2wp
 
 			void regex_search(const char *pattern, std::vector<std::string> &storage);
 
-			std::string getText() const
+			std::string get_text() const
 			{
 				return text;
 			}

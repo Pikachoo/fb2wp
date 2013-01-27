@@ -1,5 +1,7 @@
 #include "fb2wp.hpp"
 
+class fb2wp::books fb2wp::books;
+
 void fb2wp::books::find_in(const char *search_dir)
 {
 	v.clear();
@@ -55,17 +57,12 @@ void fb2wp::books::regex_search(const char *pattern, std::vector<std::string> &s
 	 * Regular expression search
 	 * ========================= */
 
-	boost::smatch m;
-	boost::regex reg(pattern);
+	std::tr1::regex match(pattern);
 
-	if (boost::regex_search(text, m, reg))
-	{
-		std::cout << "[" << m.size() - 1 << "]: ";
+	std::copy(std::tr1::sregex_token_iterator(text.begin(), text.end(), match),
+			std::tr1::sregex_token_iterator(), std::back_inserter(storage));
 
-		for (int i = 1; i < m.size(); i++)
-		{
-			storage.push_back(m[i]);
-			std::cout << m[i] << std::endl;
-		}
-	}
+	std::cout << "[" << storage.size() << "]: " << storage[0] << std::endl;
+
+	// Now matches[0] is the first match, matches[1] the second, and so on.
 }
