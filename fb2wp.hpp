@@ -31,9 +31,11 @@ namespace fb2wp
 
 		public:
 			void find_in(const char *search_dir);
-			void open_in_memory();
+			void load_in_memory(const char *file_path);
 
 			void regex_search(const char *pattern, std::vector<std::string> &storage);
+
+			file_vector get_file_list() { return file_list; }
 	};
 
 	extern books books;

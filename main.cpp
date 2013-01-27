@@ -3,7 +3,7 @@
 int main()
 {
 	fb2wp::books.find_in("books/");
-	fb2wp::books.open_in_memory();
+	fb2wp::books.load_in_memory(fb2wp::books.get_file_list()[0].c_str());
 
 	fb2wp::book_skel mybook;
 

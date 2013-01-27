@@ -25,30 +25,26 @@ void fb2wp::books::find_in(const char *search_dir)
 	sort(file_list.begin(), file_list.end());
 }
 
-void fb2wp::books::open_in_memory()
+void fb2wp::books::load_in_memory(const char *file_path)
 {
 	text.clear();
 
 	std::ifstream myfile;
 
-	for (std::vector<boost::filesystem::path>::iterator i = file_list.begin(); i != file_list.end();
-			++i)
+	/* ============= *
+	 * Read the file
+	 * ============= */
+
+	myfile.open(file_path);
+
+	while (myfile.good())
 	{
-		/* ============ *
-		 * Reading file
-		 * ============ */
-
-		myfile.open(i->c_str());
-
-		while (myfile.good())
-		{
-			std::string line;
-			std::getline(myfile, line);
-			text.append(line);
-		}
-
-		myfile.close();
+		std::string line;
+		std::getline(myfile, line);
+		text.append(line);
 	}
+
+	myfile.close();
 }
 
 void fb2wp::books::regex_search(const char *pattern, std::vector<std::string> &storage)
