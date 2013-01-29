@@ -47,6 +47,41 @@ void fb2wp::books::load_in_memory(const char *file_path)
 	myfile.close();
 }
 
+void fb2wp::books::get_primary_info()
+{
+	/* ================ *
+	 * Get primary info
+	 * ================ */
+
+	fb2wp::books.regex_search("(?<=<genre>)(.*?)(?=</genre>)", current.genre);
+	fb2wp::books.regex_search("(?<=<book-name>)(.*?)(?=</book-name>)", current.book_name);
+	fb2wp::books.regex_search("(?<=<book-title>)(.*?)(?=</book-title>)", current.book_title);
+	fb2wp::books.regex_search("(?<=<publisher>)(.*?)(?=</publisher>)", current.publisher);
+	fb2wp::books.regex_search("(?<=<city>)(.*?)(?=</city>)", current.city);
+	fb2wp::books.regex_search("(?<=<year>)(.*?)(?=</year>)", current.year);
+	fb2wp::books.regex_search("(?<=<isbn>)(.*?)(?=</isbn>)", current.isbn);
+}
+
+void fb2wp::books::get_authors_info()
+{
+	/* =========== *
+	 * Get authors
+	 * =========== */
+
+	fb2wp::books.regex_search("(?<=<first-name>)(.*?)(?=</first-name>)", current.first_name);
+	fb2wp::books.regex_search("(?<=<last-name>)(.*?)(?=</last-name>)", current.last_name);
+}
+
+void fb2wp::books::get_the_content()
+{
+	/* ================================== *
+	 * Get tales per each <section> in it
+	 * ================================== */
+
+	fb2wp::books.regex_search("(?<=<section>)(.*?)(?=</section>)", current.tales);
+	fb2wp::books.regex_search_in("(?<=<title>)(.*?)(?=</title>)", current.tales, current.titles);
+}
+
 void fb2wp::books::regex_search(const char *pattern, std::vector<std::string> &storage)
 {
 	/* ========================= *
@@ -55,8 +90,32 @@ void fb2wp::books::regex_search(const char *pattern, std::vector<std::string> &s
 
 	boost::regex regex(pattern, boost::regex::perl);
 
-	for (boost::sregex_token_iterator it(text.begin(), text.end(), regex, 0), it_end; it != it_end; ++it)
+	for (boost::sregex_token_iterator it(text.begin(), text.end(), regex, 0), it_end; it != it_end;
+			++it)
 	{
 		storage.push_back(*it);
 	}
+
+	std::cout << "[" << storage.size() << "]" << std::endl;
+}
+
+void fb2wp::books::regex_search_in(const char *pattern, std::vector<std::string> &text,
+		std::vector<std::string> &storage)
+{
+	/* ========================= *
+	 * Regular expression search
+	 * ========================= */
+
+	boost::regex regex(pattern, boost::regex::perl);
+	std::tr1::regex term(pattern);
+	boost::cmatch matches;
+
+	for (std::vector<std::string>::iterator it = text.begin(), it_end = text.end(); it != it_end;
+			++it)
+	{
+		std::copy(std::tr1::sregex_token_iterator(it->begin(), it->end(), term),
+				std::tr1::sregex_token_iterator(), std::back_inserter(storage));
+	}
+
+	std::cout << "[" << storage.size() << "]" << std::endl;
 }
