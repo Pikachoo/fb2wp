@@ -102,9 +102,9 @@ void fb2wp::books::regex_search(const char *pattern, std::vector<std::string> &s
 void fb2wp::books::regex_search_in(const char *pattern, std::vector<std::string> &text,
 		std::vector<std::string> &storage)
 {
-	/* ========================= *
-	 * Regular expression search
-	 * ========================= */
+	/* ================================================= *
+	 * Regular expression search in the vector of string
+	 * ================================================= */
 
 	boost::regex regex(pattern, boost::regex::perl);
 	boost::cmatch matches;
