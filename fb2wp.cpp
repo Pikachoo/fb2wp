@@ -107,13 +107,12 @@ void fb2wp::books::regex_search_in(const char *pattern, std::vector<std::string>
 	 * ========================= */
 
 	boost::regex regex(pattern, boost::regex::perl);
-	std::tr1::regex term(pattern);
 	boost::cmatch matches;
 
 	for (std::vector<std::string>::iterator it = text.begin(), it_end = text.end(); it != it_end;
 			++it)
 	{
-		std::copy(std::tr1::sregex_token_iterator(it->begin(), it->end(), term),
+		std::copy(std::tr1::sregex_token_iterator(it->begin(), it->end(), regex),
 				std::tr1::sregex_token_iterator(), std::back_inserter(storage));
 	}
 
