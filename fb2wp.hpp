@@ -14,23 +14,22 @@
 
 namespace fb2wp
 {
-	struct skel_book
+	namespace skel
 	{
-			std::vector<std::string> genre, book_title, book_name, publisher, city, year, isbn,
+			struct book
+			{
+					std::vector<std::string> genre, book_title, book_name, publisher, city, year, isbn,
+					first_name, last_name,
+					tales, titles;
+			};
 
-			first_name, last_name,
-
-			tales, titles;
-	};
-
-	struct skel_settings
-	{
-			std::string blogURL, blogTitle, blogDescription, blogLanguage,
-
-			postAuthor, postStatus, postType, postVisibility, postComments,
-
-			postDate, postDateGMT, postPubDate;
-	};
+			struct settings
+			{
+					std::string blogURL, blogTitle, blogDescription, blogLanguage,
+					postAuthor, postStatus, postType, postVisibility, postComments,
+					postDate, postDateGMT, postPubDate;
+			};
+	}
 
 	class books
 	{
@@ -38,8 +37,8 @@ namespace fb2wp
 			typedef std::vector<boost::filesystem::path> file_vector;
 			file_vector file_list;
 
-			skel_book book;
-			skel_settings settings;
+			skel::book book;
+			skel::settings settings;
 
 			std::string text;
 
@@ -53,9 +52,9 @@ namespace fb2wp
 			void get_the_authors_info();
 			void get_the_content();
 
-			file_vector &	get_the_file_list() { return file_list; }
-			skel_book &		get_book() { return book; }
-			skel_settings &	get_settings() { return settings; }
+			file_vector &		get_the_file_list() { return file_list; }
+			skel::book &		get_book() { return book; }
+			skel::settings &	get_settings() { return settings; }
 
 			void regex_search(const char *pattern, std::vector<std::string> &storage);
 			void regex_search_in(const char *pattern, std::vector<std::string> &text, std::vector<std::string> &storage);

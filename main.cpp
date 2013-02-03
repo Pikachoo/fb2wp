@@ -11,6 +11,8 @@ int main()
 	fb2wp::books.get_the_authors_info();
 	fb2wp::books.get_the_content();
 
+
+
 	std::cout << fb2wp::books.get_book().genre[0] << std::endl;
 	std::cout << fb2wp::books.get_book().book_name[0] << std::endl;
 	std::cout << fb2wp::books.get_book().book_title[0] << std::endl;
