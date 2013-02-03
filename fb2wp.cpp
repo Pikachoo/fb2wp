@@ -2,7 +2,28 @@
 
 class fb2wp::books fb2wp::books;
 
-void fb2wp::books::find_in(const char *search_dir)
+void fb2wp::books::load_settings(const char *file_name)
+{
+	boost::property_tree::ptree pt;
+	boost::property_tree::ini_parser::read_ini(file_name, pt);
+
+	settings.blogURL = pt.get<std::string>("fb2wp.BlogURL");
+	settings.blogTitle = pt.get<std::string>("fb2wp.BlogTitle");
+	settings.blogDescription = pt.get<std::string>("fb2wp.BlogDescription");
+	settings.blogLanguage = pt.get<std::string>("fb2wp.BlogLanguage");
+
+	settings.postAuthor = pt.get<std::string>("fb2wp.PostAuthor");
+	settings.postStatus = pt.get<std::string>("fb2wp.PostStatus");
+	settings.postType = pt.get<std::string>("fb2wp.PostType");
+	settings.postVisibility = pt.get<std::string>("fb2wp.PostVisibility");
+	settings.postComments = pt.get<std::string>("fb2wp.PostComments");
+
+	settings.postDate = pt.get<std::string>("fb2wp.PostDate");
+	settings.postDateGMT = pt.get<std::string>("fb2wp.PostDateGMT");
+	settings.postPubDate = pt.get<std::string>("fb2wp.PostPubDate");
+}
+
+void fb2wp::books::find_books(const char *search_dir)
 {
 	file_list.clear();
 
@@ -25,7 +46,7 @@ void fb2wp::books::find_in(const char *search_dir)
 	sort(file_list.begin(), file_list.end());
 }
 
-void fb2wp::books::load_in_memory(const char *file_path)
+void fb2wp::books::load_book(const char *file_name)
 {
 	text.clear();
 
@@ -33,13 +54,14 @@ void fb2wp::books::load_in_memory(const char *file_path)
 	 * Read the file
 	 * ============= */
 
+	std::string line;
 	std::ifstream myfile;
 
-	myfile.open(file_path);
+	myfile.open(file_name);
 
 	while (myfile.good())
 	{
-		std::string line;
+
 		std::getline(myfile, line);
 		text.append(line);
 	}
@@ -47,29 +69,29 @@ void fb2wp::books::load_in_memory(const char *file_path)
 	myfile.close();
 }
 
-void fb2wp::books::get_primary_info()
+void fb2wp::books::get_the_primary_info()
 {
 	/* ================ *
 	 * Get primary info
 	 * ================ */
 
-	fb2wp::books.regex_search("(?<=<genre>)(.*?)(?=</genre>)", current.genre);
-	fb2wp::books.regex_search("(?<=<book-name>)(.*?)(?=</book-name>)", current.book_name);
-	fb2wp::books.regex_search("(?<=<book-title>)(.*?)(?=</book-title>)", current.book_title);
-	fb2wp::books.regex_search("(?<=<publisher>)(.*?)(?=</publisher>)", current.publisher);
-	fb2wp::books.regex_search("(?<=<city>)(.*?)(?=</city>)", current.city);
-	fb2wp::books.regex_search("(?<=<year>)(.*?)(?=</year>)", current.year);
-	fb2wp::books.regex_search("(?<=<isbn>)(.*?)(?=</isbn>)", current.isbn);
+	fb2wp::books.regex_search("(?<=<genre>)(.*?)(?=</genre>)", book.genre);
+	fb2wp::books.regex_search("(?<=<book-name>)(.*?)(?=</book-name>)", book.book_name);
+	fb2wp::books.regex_search("(?<=<book-title>)(.*?)(?=</book-title>)", book.book_title);
+	fb2wp::books.regex_search("(?<=<publisher>)(.*?)(?=</publisher>)", book.publisher);
+	fb2wp::books.regex_search("(?<=<city>)(.*?)(?=</city>)", book.city);
+	fb2wp::books.regex_search("(?<=<year>)(.*?)(?=</year>)", book.year);
+	fb2wp::books.regex_search("(?<=<isbn>)(.*?)(?=</isbn>)", book.isbn);
 }
 
-void fb2wp::books::get_authors_info()
+void fb2wp::books::get_the_authors_info()
 {
 	/* =========== *
 	 * Get authors
 	 * =========== */
 
-	fb2wp::books.regex_search("(?<=<first-name>)(.*?)(?=</first-name>)", current.first_name);
-	fb2wp::books.regex_search("(?<=<last-name>)(.*?)(?=</last-name>)", current.last_name);
+	fb2wp::books.regex_search("(?<=<first-name>)(.*?)(?=</first-name>)", book.first_name);
+	fb2wp::books.regex_search("(?<=<last-name>)(.*?)(?=</last-name>)", book.last_name);
 }
 
 void fb2wp::books::get_the_content()
@@ -78,8 +100,8 @@ void fb2wp::books::get_the_content()
 	 * Get tales per each <section> in it
 	 * ================================== */
 
-	fb2wp::books.regex_search("(?<=<section>)(.*?)(?=</section>)", current.tales);
-	fb2wp::books.regex_search_in("(?<=<title>)(.*?)(?=</title>)", current.tales, current.titles);
+	fb2wp::books.regex_search("(?<=<section>)(.*?)(?=</section>)", book.tales);
+	fb2wp::books.regex_search_in("(?<=<title>)(.*?)(?=</title>)", book.tales, book.titles);
 }
 
 void fb2wp::books::regex_search(const char *pattern, std::vector<std::string> &storage)
@@ -107,7 +129,6 @@ void fb2wp::books::regex_search_in(const char *pattern, std::vector<std::string>
 	 * ================================================= */
 
 	boost::regex regex(pattern, boost::regex::perl);
-	boost::cmatch matches;
 
 	for (std::vector<std::string>::iterator it = text.begin(), it_end = text.end(); it != it_end;
 			++it)
