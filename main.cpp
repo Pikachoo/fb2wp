@@ -2,39 +2,39 @@
 
 int main()
 {
-	fb2wp::books.load_settings("config.ini");
+	fb2wp::Settings.Read("config.ini");
 
-	fb2wp::books.find_books("books/");
-	fb2wp::books.load_book(fb2wp::books.get_the_file_list()[0].c_str());
+	fb2wp::Book.Find("books/");
+	fb2wp::Book.Read(fb2wp::Book.GetFileList()[0].c_str());
 
-	fb2wp::books.get_the_primary_info();
-	fb2wp::books.get_the_authors_info();
-	fb2wp::books.get_the_content();
+	fb2wp::Book.SearchPrimaryInfo();
+	fb2wp::Book.SearchAuthorsInfo();
+	fb2wp::Book.SearchContent();
 
 
 
-	std::cout << fb2wp::books.get_book().genre[0] << std::endl;
-	std::cout << fb2wp::books.get_book().book_name[0] << std::endl;
-	std::cout << fb2wp::books.get_book().book_title[0] << std::endl;
-	std::cout << fb2wp::books.get_book().publisher[0] << std::endl;
-	std::cout << fb2wp::books.get_book().city[0] << std::endl;
-	std::cout << fb2wp::books.get_book().year[0] << std::endl;
-	std::cout << fb2wp::books.get_book().isbn[0] << std::endl;
+	std::cout << fb2wp::Book.GetBook().genre[0] << std::endl;
+	std::cout << fb2wp::Book.GetBook().book_name[0] << std::endl;
+	std::cout << fb2wp::Book.GetBook().book_title[0] << std::endl;
+	std::cout << fb2wp::Book.GetBook().publisher[0] << std::endl;
+	std::cout << fb2wp::Book.GetBook().city[0] << std::endl;
+	std::cout << fb2wp::Book.GetBook().year[0] << std::endl;
+	std::cout << fb2wp::Book.GetBook().isbn[0] << std::endl;
 
-	std::cout << fb2wp::books.get_settings().blogURL << std::endl;
-	std::cout << fb2wp::books.get_settings().blogTitle << std::endl;
-	std::cout << fb2wp::books.get_settings().blogDescription << std::endl;
-	std::cout << fb2wp::books.get_settings().blogLanguage << std::endl;
+	std::cout << fb2wp::Settings.GetSettings().blogURL << std::endl;
+	std::cout << fb2wp::Settings.GetSettings().blogTitle << std::endl;
+	std::cout << fb2wp::Settings.GetSettings().blogDescription << std::endl;
+	std::cout << fb2wp::Settings.GetSettings().blogLanguage << std::endl;
 
-	std::cout << fb2wp::books.get_settings().postAuthor << std::endl;
-	std::cout << fb2wp::books.get_settings().postStatus << std::endl;
-	std::cout << fb2wp::books.get_settings().postType << std::endl;
-	std::cout << fb2wp::books.get_settings().postVisibility << std::endl;
-	std::cout << fb2wp::books.get_settings().postComments << std::endl;
+	std::cout << fb2wp::Settings.GetSettings().postAuthor << std::endl;
+	std::cout << fb2wp::Settings.GetSettings().postStatus << std::endl;
+	std::cout << fb2wp::Settings.GetSettings().postType << std::endl;
+	std::cout << fb2wp::Settings.GetSettings().postVisibility << std::endl;
+	std::cout << fb2wp::Settings.GetSettings().postComments << std::endl;
 
-	std::cout << fb2wp::books.get_settings().postDate << std::endl;
-	std::cout << fb2wp::books.get_settings().postDateGMT << std::endl;
-	std::cout << fb2wp::books.get_settings().postPubDate << std::endl;
+	std::cout << fb2wp::Settings.GetSettings().postDate << std::endl;
+	std::cout << fb2wp::Settings.GetSettings().postDateGMT << std::endl;
+	std::cout << fb2wp::Settings.GetSettings().postPubDate << std::endl;
 
 
 	return 0;
