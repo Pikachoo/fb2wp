@@ -11,22 +11,36 @@ int main()
 	fb2wp::Book.SearchAuthorsInfo();
 	fb2wp::Book.SearchContent();
 
+	fb2wp::XML.PrepareHeader();
+	fb2wp::XML.PrepareBody();
+	fb2wp::XML.PrepareFooter();
+
+	fb2wp::XML.SaveHeader();
+	fb2wp::XML.SaveBody();
+	fb2wp::XML.SaveFooter();
 
 
 	std::cout << fb2wp::Book.GetBook().genre[0] << std::endl;
-	std::cout << fb2wp::Book.GetBook().book_name[0] << std::endl;
-	std::cout << fb2wp::Book.GetBook().book_title[0] << std::endl;
+	std::cout << fb2wp::Book.GetBook().title[0] << std::endl;
+	std::cout << fb2wp::Book.GetBook().name[0] << std::endl;
+
 	std::cout << fb2wp::Book.GetBook().publisher[0] << std::endl;
-	std::cout << fb2wp::Book.GetBook().city[0] << std::endl;
-	std::cout << fb2wp::Book.GetBook().year[0] << std::endl;
-	std::cout << fb2wp::Book.GetBook().isbn[0] << std::endl;
+	std::cout << fb2wp::Book.GetBook().publisherCity[0] << std::endl;
+	std::cout << fb2wp::Book.GetBook().publisherYear[0] << std::endl;
+	std::cout << fb2wp::Book.GetBook().publisherISBN[0] << std::endl;
 
 	std::cout << fb2wp::Settings.GetSettings().blogURL << std::endl;
 	std::cout << fb2wp::Settings.GetSettings().blogTitle << std::endl;
 	std::cout << fb2wp::Settings.GetSettings().blogDescription << std::endl;
 	std::cout << fb2wp::Settings.GetSettings().blogLanguage << std::endl;
+	std::cout << fb2wp::Settings.GetSettings().blogPubDate << std::endl;
 
-	std::cout << fb2wp::Settings.GetSettings().postAuthor << std::endl;
+	std::cout << fb2wp::Settings.GetSettings().authorNickName << std::endl;
+	std::cout << fb2wp::Settings.GetSettings().authorDisplayName << std::endl;
+	std::cout << fb2wp::Settings.GetSettings().authorEmail << std::endl;
+
+	std::cout << fb2wp::Settings.GetSettings().generatorVersion << std::endl;
+
 	std::cout << fb2wp::Settings.GetSettings().postStatus << std::endl;
 	std::cout << fb2wp::Settings.GetSettings().postType << std::endl;
 	std::cout << fb2wp::Settings.GetSettings().postVisibility << std::endl;

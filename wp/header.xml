@@ -29,13 +29,13 @@
 	<title>[BLOG TITLE]</title>
 	<link>[BLOG URL]</link>
 	<description>[BLOG DESCRIPTION]</description>
-	<pubDate>Sun, 03 Feb 2013 09:34:59 +0000</pubDate>
+	<pubDate>[BLOG PUB DATE]</pubDate>
 	<language>[BLOG LANGUAGE]</language>
 	<wp:wxr_version>1.2</wp:wxr_version>
 	<wp:base_site_url>[BLOG URL]</wp:base_site_url>
 	<wp:base_blog_url>[BLOG URL]</wp:base_blog_url>
 
-	<wp:author><wp:author_id>1</wp:author_id><wp:author_login>admin</wp:author_login><wp:author_email>admin@m7team.ru</wp:author_email><wp:author_display_name><![CDATA[admin]]></wp:author_display_name><wp:author_first_name><![CDATA[]]></wp:author_first_name><wp:author_last_name><![CDATA[]]></wp:author_last_name></wp:author>
+	<wp:author><wp:author_id>1</wp:author_id><wp:author_login>[AUTHOR NICKNAME]</wp:author_login><wp:author_email>[AUTHOR EMAIL]</wp:author_email><wp:author_display_name><![CDATA[[AUTHOR DISPLAY NAME]]]></wp:author_display_name><wp:author_first_name><![CDATA[]]></wp:author_first_name><wp:author_last_name><![CDATA[]]></wp:author_last_name></wp:author>
 
 
-	<generator>http://wordpress.org/?v=3.5.1</generator>
+	<generator>http://wordpress.org/?v=[GENERATOR VERSION]</generator>

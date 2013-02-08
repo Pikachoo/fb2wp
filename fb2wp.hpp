@@ -1,6 +1,7 @@
 #ifndef FB2WP_HPP_
 #define FB2WP_HPP_
 
+#include <boost/algorithm/string/replace.hpp>
 #include <boost/property_tree/ini_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/filesystem.hpp>
@@ -16,14 +17,19 @@ namespace fb2wp
 {
 	struct book_T
 	{
-			std::vector<std::string> genre, book_title, book_name, publisher, city, year, isbn,
-					first_name, last_name, tales, titles;
+			std::vector<std::string> genre, title, name,
+			publisher, publisherCity, publisherYear, publisherISBN,
+			authorFirstName, authorLastName,
+			tales, titles;
 	};
 
 	struct settings_T
 	{
-			std::string blogURL, blogTitle, blogDescription, blogLanguage, postAuthor, postStatus,
-					postType, postVisibility, postComments, postDate, postDateGMT, postPubDate;
+			std::string blogURL, blogTitle, blogDescription, blogLanguage, blogPubDate,
+					authorNickName, authorDisplayName, authorEmail,
+					generatorVersion,
+					postStatus, postType, postVisibility, postComments,
+					postDate, postDateGMT, postPubDate;
 	};
 
 	struct file_export_T
@@ -43,6 +49,7 @@ namespace fb2wp
 
 		public:
 			void Find(const char *search_dir);
+
 			void Read(const char *file_name);
 
 			void Search(const char *pattern, std::vector<std::string> &storage);
@@ -74,8 +81,24 @@ namespace fb2wp
 		private:
 			file_export_T __file_export;
 
+			std::string __xml_header;
+			std::string __xml_body;
+			std::string __xml_footer;
+
 		public:
 			file_export_T & GetFileExport();
+
+			std::string Read(const char *file_name);
+
+			void PrepareHeader();
+			void PrepareBody();
+			void PrepareFooter();
+
+			void SaveHeader();
+			void SaveBody();
+			void SaveFooter();
+
+			std::string Replace(std::string &text, std::string &s, std::string &d);
 	};
 
 	extern Book Book;
