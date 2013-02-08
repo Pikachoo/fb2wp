@@ -193,8 +193,6 @@ std::string fb2wp::XML::Read(const char *file_name)
 void fb2wp::XML::PrepareHeader()
 {
 	__xml_header = fb2wp::XML.Read("wp/header.xml");
-	__xml_body = fb2wp::XML.Read("wp/body.xml");
-	__xml_footer = fb2wp::XML.Read("wp/footer.xml");
 
 	boost::algorithm::replace_all(__xml_header, "[BLOG TITLE]", fb2wp::Settings.GetSettings().blogTitle);
 	boost::algorithm::replace_all(__xml_header, "[BLOG URL]", fb2wp::Settings.GetSettings().blogURL);
@@ -209,12 +207,12 @@ void fb2wp::XML::PrepareHeader()
 
 void fb2wp::XML::PrepareBody()
 {
-
+	__xml_body = fb2wp::XML.Read("wp/body.xml");
 }
 
 void fb2wp::XML::PrepareFooter()
 {
-
+	__xml_footer = fb2wp::XML.Read("wp/footer.xml");
 }
 
 void fb2wp::XML::SaveHeader()
