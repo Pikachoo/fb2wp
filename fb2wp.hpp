@@ -3,7 +3,9 @@
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/property_tree/ini_parser.hpp>
+#include <boost/algorithm/string/regex.hpp>
 #include <boost/property_tree/ptree.hpp>
+#include <boost/lexical_cast.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/tr1/regex.hpp>
 
@@ -28,7 +30,7 @@ namespace fb2wp
 			std::string blogURL, blogTitle, blogDescription, blogLanguage, blogPubDate,
 					authorNickName, authorDisplayName, authorEmail,
 					generatorVersion,
-					postStatus, postType, postVisibility, postComments,
+					postStatus, postType, postVisibility, postComments, postCategoryName, postCategoryNiceName,
 					postDate, postDateGMT, postPubDate;
 	};
 
@@ -99,6 +101,8 @@ namespace fb2wp
 			void SaveFooter();
 
 			std::string Replace(std::string &text, std::string &s, std::string &d);
+			std::string CyrToLat(std::string &text);
+			std::string StringCleaner(std::string &text);
 	};
 
 	extern Book Book;

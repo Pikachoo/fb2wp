@@ -1,9 +1,9 @@
 	<item>
 		<title>[POST TITLE]</title>
-		<link>[BASE URL][POST URL]/</link>
-		<pubDate>Sun, 03 Feb 2013 09:34:32 +0000</pubDate>
+		<link>[BLOG URL][POST NAME]/</link>
+		<pubDate>[POST PUB DATE]</pubDate>
 		<dc:creator>[POST AUTHOR]</dc:creator>
-		<guid isPermaLink="false">[BASE URL]?p=[POST ID]</guid>
+		<guid isPermaLink="false">[BLOG URL]?p=[POST ID]</guid>
 		<description></description>
 		<content:encoded><![CDATA[[POST CONTENT]]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
