@@ -10,14 +10,17 @@ int main()
 	fb2wp::Book.SearchPrimaryInfo();
 	fb2wp::Book.SearchAuthorsInfo();
 	fb2wp::Book.SearchContent();
+	fb2wp::Book.SearchImages();
 
 	fb2wp::XML.PrepareHeader();
 	fb2wp::XML.PrepareBody();
 	fb2wp::XML.PrepareFooter();
+	fb2wp::XML.PrepareImages();
 
 	fb2wp::XML.SaveHeader();
 	fb2wp::XML.SaveBody();
 	fb2wp::XML.SaveFooter();
+	fb2wp::XML.SaveImages();
 
 
 	std::cout << fb2wp::Book.GetBook().genre[0] << std::endl;
@@ -49,7 +52,6 @@ int main()
 	std::cout << fb2wp::Settings.GetSettings().postDate << std::endl;
 	std::cout << fb2wp::Settings.GetSettings().postDateGMT << std::endl;
 	std::cout << fb2wp::Settings.GetSettings().postPubDate << std::endl;
-
 
 	return 0;
 }

@@ -113,6 +113,18 @@ void fb2wp::Book::SearchContent()
 
 	fb2wp::Book.Search("(?<=<section>)(.*?)(?=</section>)", __book.tales);
 	fb2wp::Book.SearchInVector("(?<=<title>)(.*?)(?=</title>)", __book.tales, __book.titles);
+
+	fb2wp::XML.MarkupCleaner(__book.tales);
+}
+
+void fb2wp::Book::SearchImages()
+{
+	/* ================================== *
+	 * Get images per each <binary> in it
+	 * ================================== */
+
+	fb2wp::Book.Search("(<binary)([^\n]*?)(</binary>)", __book.imagesEncoded);
+	fb2wp::Book.SearchInVector("(?<=id=\")(.*?)(?=\" content-type)", __book.imagesEncoded, __book.imagesIDs);
 }
 
 void fb2wp::Book::Search(const char *pattern, std::vector<std::string> &storage)
@@ -141,8 +153,18 @@ void fb2wp::Book::SearchInVector(const char *pattern, std::vector<std::string> &
 
 	for (std::vector<std::string>::iterator it = text.begin(), it_end = text.end(); it != it_end; ++it)
 	{
-		std::copy(std::tr1::sregex_token_iterator(it->begin(), it->end(), regex), std::tr1::sregex_token_iterator(),
-				std::back_inserter(storage));
+		//std::copy(std::tr1::sregex_token_iterator(it->begin(), it->end(), regex), std::tr1::sregex_token_iterator(),
+		//		std::back_inserter(storage));
+
+		for (boost::sregex_token_iterator jt(it->begin(), it->end(), regex, 0), jt_end; jt != jt_end; ++jt)
+		{
+			/* ============================= *
+			 * First occurrence of %pattern%
+			 * ============================= */
+
+			storage.push_back(*jt);
+			break;
+		}
 	}
 
 	std::cout << "[" << storage.size() << "]" << std::endl;
@@ -217,6 +239,17 @@ void fb2wp::XML::PrepareFooter()
 	__xml_footer = fb2wp::XML.Read("wp/footer.xml");
 }
 
+void fb2wp::XML::PrepareImages()
+{
+	for (std::vector<std::string>::iterator it = fb2wp::Book.GetBook().imagesEncoded.begin(), it_end =
+			fb2wp::Book.GetBook().imagesEncoded.end(); it != it_end; ++it)
+	{
+		fb2wp::Book.GetBook().imagesDecoded.push_back(fb2wp::XML::DecodeImage(fb2wp::XML.StringCleaner(*it)));
+	}
+
+	std::cout << "[" << fb2wp::Book.GetBook().imagesDecoded.size() << "] images decoded" << std::endl;
+}
+
 void fb2wp::XML::SaveHeader()
 {
 	std::ofstream myfile;
@@ -267,19 +300,35 @@ void fb2wp::XML::SaveFooter()
 	myfile.close();
 }
 
+void fb2wp::XML::SaveImages()
+{
+	for (std::vector<std::string>::iterator it = fb2wp::Book.GetBook().imagesDecoded.begin(), jt =
+			fb2wp::Book.GetBook().imagesIDs.begin(), it_end = fb2wp::Book.GetBook().imagesDecoded.end(), jt_end =
+			fb2wp::Book.GetBook().imagesIDs.end(); it != it_end, jt != jt_end; ++it, ++jt)
+	{
+		std::ofstream myimage;
+		std::string path = "output/images/";
+		path.append(*jt);
+
+		myimage.open(path.c_str());
+		myimage << *it;
+		myimage.close();
+	}
+}
+
 std::string fb2wp::XML::CyrToLat(std::string &text)
 {
 	std::string tmp = StringCleaner(text);
 	std::string cyr[] = { "А", "а", "Б", "б", "В", "в", "Г", "г", "Д", "д", "Е", "е", "Ё", "ё", "Ж", "ж", "З", "з", "И", "и", "Й",
 			"й", "К", "к", "Л", "л", "М", "м", "Н", "н", "О", "о", "П", "п", "Р", "р", "С", "с", "Т", "т", "У", "у", "Ф", "ф",
-			"Х", "х", "Ц", "ц", "Ч", "ч", "Ш", "ш", "Щ", "щ", "Ъ", "ъ", "Ы", "ы", "Ь", "ь", "Э", "э", "Ю", "ю", "Я", "я", " "};
-	std::string lat[] =
-			{ "A", "a", "B", "b", "V", "v", "G", "g", "D", "d", "E", "e", "E", "e", "J", "j", "Z", "z", "I", "i", "I", "i", "K",
-					"k", "L", "l", "M", "m", "N", "n", "O", "o", "P", "p", "R", "r", "S", "s", "T", "t", "Y", "y", "F", "f", "H",
-					"h", "C", "c", "Ch", "ch", "Sh", "sh", "Sch", "Sch", "J", "j", "i", "i", "", "", "E", "e", "Yu", "yu", "Ya",
-					"ya", "-"};
+			"Х", "х", "Ц", "ц", "Ч", "ч", "Ш", "ш", "Щ", "щ", "Ъ", "ъ", "Ы", "ы", "Ь", "ь", "Э", "э", "Ю", "ю", "Я", "я", " ",
+			",", "." };
+	std::string lat[] = { "A", "a", "B", "b", "V", "v", "G", "g", "D", "d", "E", "e", "E", "e", "J", "j", "Z", "z", "I", "i", "I",
+			"i", "K", "k", "L", "l", "M", "m", "N", "n", "O", "o", "P", "p", "R", "r", "S", "s", "T", "t", "Y", "y", "F", "f",
+			"H", "h", "C", "c", "Ch", "ch", "Sh", "sh", "Sch", "Sch", "J", "j", "i", "i", "", "", "E", "e", "Yu", "yu", "Ya",
+			"ya", "-", "", "" };
 
-	for (uint i = 0; i < 67; i++)
+	for (uint i = 0; i < 69; i++)
 	{
 		boost::algorithm::replace_all(tmp, cyr[i], lat[i]);
 	}
@@ -287,9 +336,30 @@ std::string fb2wp::XML::CyrToLat(std::string &text)
 	return tmp;
 }
 
+void fb2wp::XML::MarkupCleaner(std::vector<std::string> &text)
+{
+	for (std::vector<std::string>::iterator it = text.begin(), it_end = text.end(); it != it_end; ++it)
+	{
+		boost::algorithm::replace_all(*it, "<empty-line/>", "<br />");
+
+		boost::algorithm::replace_all(*it, "<poem>", "<div class=\"poem\">");
+		boost::algorithm::replace_all(*it, "</poem>", "</div>");
+
+		boost::algorithm::replace_all(*it, "<stanza>", "<div class=\"stanza\">");
+		boost::algorithm::replace_all(*it, "</stanza>", "</div>");
+
+		boost::algorithm::replace_all(*it, "<v>", "<div class=\"v\">");
+		boost::algorithm::replace_all(*it, "</v>", "</div>");
+	}
+}
+
 std::string fb2wp::XML::StringCleaner(std::string &text)
 {
 	std::string tmp = text;
+
+	/* ======================= *
+	 * Erase tabs and newlines
+	 * ======================= */
 
 	tmp.erase(std::remove(tmp.begin(), tmp.end(), '\n'), tmp.end());
 	tmp.erase(std::remove(tmp.begin(), tmp.end(), '\r'), tmp.end());
@@ -343,4 +413,60 @@ std::string fb2wp::XML::StringCleaner(std::string &text)
 	}
 
 	return tmp;
+}
+
+inline bool fb2wp::XML::IsBase64(unsigned char c)
+{
+	return (isalnum(c) || (c == '+') || (c == '/'));
+}
+
+std::string fb2wp::XML::DecodeImage(std::string const& encoded_string)
+{
+	static const std::string base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+			"abcdefghijklmnopqrstuvwxyz"
+			"0123456789+/";
+
+	int in_len = encoded_string.size();
+	int i = 0;
+	int j = 0;
+	int in_ = 0;
+	unsigned char char_array_4[4], char_array_3[3];
+	std::string ret;
+
+	while (in_len-- && (encoded_string[in_] != '=') && fb2wp::XML.IsBase64(encoded_string[in_]))
+	{
+		char_array_4[i++] = encoded_string[in_];
+		in_++;
+		if (i == 4)
+		{
+			for (i = 0; i < 4; i++)
+				char_array_4[i] = base64_chars.find(char_array_4[i]);
+
+			char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+			char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+			char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
+
+			for (i = 0; (i < 3); i++)
+				ret += char_array_3[i];
+			i = 0;
+		}
+	}
+
+	if (i)
+	{
+		for (j = i; j < 4; j++)
+			char_array_4[j] = 0;
+
+		for (j = 0; j < 4; j++)
+			char_array_4[j] = base64_chars.find(char_array_4[j]);
+
+		char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+		char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+		char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
+
+		for (j = 0; (j < i - 1); j++)
+			ret += char_array_3[j];
+	}
+
+	return ret;
 }

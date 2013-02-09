@@ -19,19 +19,15 @@ namespace fb2wp
 {
 	struct book_T
 	{
-			std::vector<std::string> genre, title, name,
-			publisher, publisherCity, publisherYear, publisherISBN,
-			authorFirstName, authorLastName,
-			tales, titles;
+			std::vector<std::string> genre, title, name, publisher, publisherCity, publisherYear, publisherISBN, authorFirstName,
+					authorLastName, tales, titles, imagesEncoded, imagesIDs, imagesDecoded;
 	};
 
 	struct settings_T
 	{
-			std::string blogURL, blogTitle, blogDescription, blogLanguage, blogPubDate,
-					authorNickName, authorDisplayName, authorEmail,
-					generatorVersion,
-					postStatus, postType, postVisibility, postComments, postCategoryName, postCategoryNiceName,
-					postDate, postDateGMT, postPubDate;
+			std::string blogURL, blogTitle, blogDescription, blogLanguage, blogPubDate, authorNickName, authorDisplayName,
+					authorEmail, generatorVersion, postStatus, postType, postVisibility, postComments, postCategoryName,
+					postCategoryNiceName, postDate, postDateGMT, postPubDate;
 	};
 
 	struct file_export_T
@@ -55,12 +51,13 @@ namespace fb2wp
 			void Read(const char *file_name);
 
 			void Search(const char *pattern, std::vector<std::string> &storage);
-			void SearchInVector(const char *pattern, std::vector<std::string> &text,
-					std::vector<std::string> &storage);
+			void SearchInVector(const char *pattern, std::vector<std::string> &text, std::vector<std::string> &storage);
+			void ReverseSearchInVector(const char *pattern, std::vector<std::string> &text, std::vector<std::string> &storage);
 
 			void SearchPrimaryInfo();
 			void SearchAuthorsInfo();
 			void SearchContent();
+			void SearchImages();
 
 			book_T & GetBook();
 			book_T & GetContent();
@@ -95,14 +92,20 @@ namespace fb2wp
 			void PrepareHeader();
 			void PrepareBody();
 			void PrepareFooter();
+			void PrepareImages();
 
 			void SaveHeader();
 			void SaveBody();
 			void SaveFooter();
+			void SaveImages();
 
+			void MarkupCleaner(std::vector<std::string> &text);
+			std::string StringCleaner(std::string &text);
 			std::string Replace(std::string &text, std::string &s, std::string &d);
 			std::string CyrToLat(std::string &text);
-			std::string StringCleaner(std::string &text);
+
+			inline bool IsBase64(unsigned char c);
+			std::string DecodeImage(std::string const &encoded_string);
 	};
 
 	extern Book Book;
