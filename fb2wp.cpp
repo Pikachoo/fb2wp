@@ -308,6 +308,7 @@ void fb2wp::XML::SaveImages()
 	{
 		std::ofstream myimage;
 		std::string path = "output/images/";
+
 		path.append(*jt);
 
 		myimage.open(path.c_str());
@@ -340,6 +341,12 @@ void fb2wp::XML::MarkupCleaner(std::vector<std::string> &text)
 {
 	for (std::vector<std::string>::iterator it = text.begin(), it_end = text.end(); it != it_end; ++it)
 	{
+		std::string newpath = "<img src=\"/wp-content/uploads/";
+		newpath.append(fb2wp::Book.GetFileList()[0].filename().c_str());
+		newpath.append("/");
+
+		boost::algorithm::replace_all(*it, "<image l:href=\"#", newpath);
+
 		boost::algorithm::replace_all(*it, "<empty-line/>", "<br />");
 
 		boost::algorithm::replace_all(*it, "<poem>", "<div class=\"poem\">");
